@@ -12,8 +12,8 @@ class Chainsaw:
         self.__is_working = is_working
 
     def __str__(self):
-        return f"Brand: {self.__brand}, power: {self.__power}, fuel tank capacity: " \
-               f"{self.__fuel_tank_capacity}, fuel level: {self.__fuel_level}, is working: {self.__is_working}"
+        return (f"Brand: {self.__brand}, power: {self.__power}, fuel tank capacity: "
+                f"{self.__fuel_tank_capacity}, fuel level: {self.__fuel_level}, is working: {self.__is_working}")
 
     def start(self):
         self.__is_working = True
@@ -22,11 +22,7 @@ class Chainsaw:
         self.__is_working = False
 
     def cut_wood(self, length):
-        if self.__fuel_tank_capacity > length * 0.3:
-            return True
-        else:
-            self.__is_working = False
-            return False
+        return True if self.__fuel_tank_capacity > length * 0.3 else False
 
     @staticmethod
     def get_instance():
