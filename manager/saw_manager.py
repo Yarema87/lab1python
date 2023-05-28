@@ -20,6 +20,9 @@ def create_saws():
 
 
 def numb_of_args(func):
+    """
+    decorator, which prints number of function arguments before it's execution
+    """
     def inner(*args):
         number_of_args = len(args)
         print(f"number of args = {number_of_args}")
@@ -28,6 +31,9 @@ def numb_of_args(func):
 
 
 def numb_of_calls(func):
+    """
+    decorator which counts how many times was function called, and throws exception before the third time
+    """
     counter = 0
 
     def inner(*args):
@@ -41,9 +47,12 @@ def numb_of_calls(func):
 
 @numb_of_calls
 def convert_saws_to_str():
+    """
+    :return: list of saws in string format
+    """
     string_saws = []
     for i in create_saws():
-        string_saws.append(i.__str__())
+        string_saws.append(str(i))
     return string_saws
 
 
@@ -90,21 +99,24 @@ def find_all_working():
 
 @numb_of_calls
 def print_len():
+    """
+    :return:
+    """
     for i in create_saws():
-        print(i.brand.__len__())
+        print(len(i.brand))
 
 
 @numb_of_calls
 def print_getitem():
     for i in create_saws():
-        print(i.__getitem__(i))
+        return i.__getitem__(i)
 
 
 @numb_of_calls
 def print_iter():
     iter_saws = iter(create_saws())
     for _ in create_saws():
-        print(next(iter_saws))
+        return next(iter_saws)
 
 
 @numb_of_calls
@@ -116,20 +128,20 @@ def comprehension():
 @numb_of_calls
 def enumerating():
     for i in enumerate(convert_saws_to_str()):
-        print(i)
+        return i
 
 
 @numb_of_calls
 def zipping():
     zipped_list = zip(convert_saws_to_str(), comprehension())
-    print(list(zipped_list))
+    return list(zipped_list)
 
 
 @numb_of_calls
 def dictionary():
     for i in create_saws():
         dict_saw = i.__dict__
-        print(dict_saw)
+        return dict_saw
 
 
 @numb_of_calls
@@ -151,5 +163,4 @@ def all_or_any():
 
 
 if __name__ == '__main__':
-    for i in create_saws():
-        set_manager.iterate_tuple_elements(i)
+    print(all_or_any())
