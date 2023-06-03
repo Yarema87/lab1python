@@ -2,7 +2,36 @@ from lab1python.models.electric_saw import ElectricSaw
 from lab1python.models.chainsaw import Chainsaw
 from lab1python.models.circular_saw import CircularSaw
 from lab1python.models.jigsaw import Jigsaw
+from lab1python.models.saw import Saw
+from lab1python.models.excections import AlreadyIsException
 import set_manager
+
+
+def number_of_calls(func):
+    """
+    decorator which counts how many times was function called, and throws exception after the third time
+    """
+    counter = 0
+
+    def inner(*args):
+        nonlocal counter
+        counter += 1
+        if counter > 3:
+            raise Exception("Too many calls")
+        return func(*args)
+
+    return inner
+
+
+def number_of_args(func):
+    """
+    decorator, which prints number of function arguments before it's execution
+    """
+    def inner(*args):
+        numb_of_args = len(args)
+        print(f"numb of args = {numb_of_args}")
+        return func(*args)
+    return inner
 
 
 def create_saws():
@@ -19,148 +48,119 @@ def create_saws():
     return list_of_saws
 
 
-def numb_of_args(func):
-    """
-    decorator, which prints number of function arguments before it's execution
-    """
-    def inner(*args):
-        number_of_args = len(args)
-        print(f"number of args = {number_of_args}")
-        return func(*args)
-    return inner
+class SawManager:
 
+    @number_of_calls
+    def convert_saws_to_str(self):
+        """
+        :return: list of saws in string format
+        """
+        string_saws = []
+        for i in create_saws():
+            string_saws.append(str(i))
+        return string_saws
 
-def numb_of_calls(func):
-    """
-    decorator which counts how many times was function called, and throws exception before the third time
-    """
-    counter = 0
+    @number_of_calls
+    def print_saws(self):
+        """
+        printing all created saws
+        """
+        for i in create_saws():
+            print(i)
 
-    def inner(*args):
-        nonlocal counter
-        counter += 1
-        if counter >= 3:
-            raise Exception("Too many calls")
-        return func(*args)
-    return inner
+    @number_of_args
+    def add_saw(self, saw):
+        """
+        add a saw to list
+        """
+        create_saws().append(saw)
 
+    @number_of_args
+    def find_saws_more_powerful_than(self, power):
+        """
+        :return: all saws, which power is more than param
+        """
+        list_of_powerful_saws = []
+        for i in create_saws():
+            if i.power > power:
+                list_of_powerful_saws.append(i)
+        return list_of_powerful_saws
 
-@numb_of_calls
-def convert_saws_to_str():
-    """
-    :return: list of saws in string format
-    """
-    string_saws = []
-    for i in create_saws():
-        string_saws.append(str(i))
-    return string_saws
+    @number_of_calls
+    def find_all_working(self):
+        """
+        :return: all saws, which are working now
+        """
+        list_of_working_saws = []
+        for i in create_saws():
+            if i.is_working is True:
+                list_of_working_saws.append(i)
+        return list_of_working_saws
 
+    @number_of_calls
+    def __len__(self):
+        """
+        :return: length of saw's brand's name and number of types of supply
+        """
+        return len(create_saws())
 
-@numb_of_calls
-def print_saws():
-    """
-    printing all created saws
-    """
-    for i in create_saws():
-        print(i)
+    @number_of_calls
+    def __getitem__(self, index):
+        """
+        :return: types of saw's all fields
+        """
+        return create_saws()[index]
 
+    @number_of_calls
+    def __iter__(self):
+        """
+        :return: all saw's objects
+        """
+        return iter(create_saws())
 
-@numb_of_args
-def add_saw(saw):
-    """
-    add a saw to list
-    """
-    create_saws().append(saw)
+    @number_of_calls
+    def comprehension(self):
+        """
+        :return: list of lengths of all saw's brand's name
+        """
+        len_list = [len(i.brand) for i in create_saws()]
+        return len_list
 
+    @number_of_calls
+    def enumerating(self):
+        """
+        :return: number of each saw in list
+        """
+        for i in enumerate(self.convert_saws_to_str()):
+            print(i)
 
-@numb_of_args
-def find_saws_more_powerful_than(power):
-    """
-    :return: all saws, which power is more than param
-    """
-    list_of_powerful_saws = []
-    for i in create_saws():
-        if i.power > power:
-            list_of_powerful_saws.append(i)
-    return list_of_powerful_saws
+    @number_of_calls
+    def zipping(self):
+        """
+        :return: list of saws and lengths of name of their brands
+        """
+        zipped_list = zip(self.convert_saws_to_str(), self.comprehension())
+        return list(zipped_list)
 
+    @number_of_calls
+    def dictionary(self):
+        """
+        :return: saws in dictionary form
+        """
+        return {attr: value for i in create_saws() for attr, value in i.__dict__.items()}
 
-@numb_of_calls
-def find_all_working():
-    """
-    :return: all saws, which are working now
-    """
-    list_of_working_saws = []
-    for i in create_saws():
-        if i.is_working is True:
-            list_of_working_saws.append(i)
-    return list_of_working_saws
-
-
-@numb_of_calls
-def print_len():
-    """
-    :return:
-    """
-    for i in create_saws():
-        print(len(i.brand))
-
-
-@numb_of_calls
-def print_getitem():
-    for i in create_saws():
-        return i.__getitem__(i)
-
-
-@numb_of_calls
-def print_iter():
-    iter_saws = iter(create_saws())
-    for _ in create_saws():
-        return next(iter_saws)
-
-
-@numb_of_calls
-def comprehension():
-    len_list = [i.brand.__len__() for i in create_saws()]
-    return len_list
-
-
-@numb_of_calls
-def enumerating():
-    for i in enumerate(convert_saws_to_str()):
-        return i
-
-
-@numb_of_calls
-def zipping():
-    zipped_list = zip(convert_saws_to_str(), comprehension())
-    return list(zipped_list)
-
-
-@numb_of_calls
-def dictionary():
-    for i in create_saws():
-        dict_saw = i.__dict__
-        return dict_saw
-
-
-@numb_of_calls
-def all_or_any():
-    counter = 0
-    for i in create_saws():
-        if i.power > 900:
-            counter += 1
-    if counter == create_saws().__len__():
-        k = True
-    else:
-        k = False
-    if counter > 0:
-        m = True
-    else:
-        m = False
-    dictionary_checker = {"all": k, "any": m}
-    return dictionary_checker
+    @number_of_calls
+    def all_or_any(self):
+        """
+        :return: dictionary, in which said if condition is true for all saws in list or if it's true for
+         at least one saw in list
+        """
+        is_all = all(i.power > 1200 for i in create_saws())
+        is_any = any(i.power > 1200 for i in create_saws())
+        return {"all": is_all, "any": is_any}
 
 
 if __name__ == '__main__':
-    print(all_or_any())
+    manager = SawManager()
+    chainsaw3 = Chainsaw(6.5, "T-1000", 1100, ("fuel", "electricity"), 3.7, 3.5, False)
+    chainsaw3.stop()

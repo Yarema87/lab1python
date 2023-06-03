@@ -1,22 +1,41 @@
 import saw_manager
-from lab1python.models.saw import Saw
 
 
-def iterate_tuple_elements(obj):
-    if isinstance(obj, Saw):
-        for element in obj.types_of_supply:
-            print(element)
-    else:
-        print("Invalid object. Please provide an instance of Saw.")
+class SetManager:
+
+    def __init__(self, manager):
+        self.manager = manager
+
+    def __iter__(self):
+        """
+        iterates throw elements of the types of supply
+        """
+        for i in self.manager.create_saws():
+            yield i.types_of_supply
+
+    def __len__(self):
+        """
+        :return: length of 'types of supply' tuple
+        """
+        total_len = 0
+        for i in self.manager.create_saws():
+            total_len += len(i.types_of_supply)
+        return total_len
+
+    def __getitem__(self, index):
+        """
+        :return: types of elements in 'types of supply' tuple
+        """
+        counter = 0
+        for i in self.manager.create_saws():
+            if counter <= index < counter + len(i.types_of_supply):
+                inner_index = index - counter
+                return list(i.types_of_supply)[inner_index]
+            counter += len(i.types_of_supply)
+        raise IndexError("list is out of range")
+
+    def __next__(self):
+        raise StopIteration()
 
 
-def len_tuple_elements():
-    for i in saw_manager.create_saws():
-        print(i.types_of_supply[0].__len__())
-        print(i.types_of_supply[1].__len__())
 
-
-def getitem_tuple_elements():
-    for i in saw_manager.create_saws():
-        for j in range(2):
-            print(i.__getitem__(i.types_of_supply[j]))

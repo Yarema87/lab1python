@@ -1,4 +1,18 @@
-from abc import abstractmethod, ABC
+from lab1python.models.excections import AlreadyIsException
+from abc import ABC, abstractmethod
+import logging
+
+
+def exception_logger(file_path):
+    def decorator(func):
+        def wrapper(*args):
+            try:
+                return func(*args)
+            except AlreadyIsException as e:
+                logging.basicConfig(filename=file_path, level=logging.ERROR)
+                logging.exception(f"Exception occurred in {func.__name__}: {str(e)}")
+        return wrapper
+    return decorator
 
 
 class Saw(ABC):
@@ -28,3 +42,25 @@ class Saw(ABC):
         :return: how much time in hours could this saw continue working
         """
         pass
+
+    @exception_logger("exceptions.txt")
+    def start(self):
+        """
+        make saw working
+        if it already is, raises exception
+        """
+        if self.is_working:
+            raise AlreadyIsException("Already works")
+        else:
+            self.is_working = True
+
+    @exception_logger("exceptions.txt")
+    def stop(self):
+        """
+        make saw not working
+        if it already is, raises exception
+        """
+        if not self.is_working:
+            raise AlreadyIsException("Already doesn't work")
+        else:
+            self.is_working = True

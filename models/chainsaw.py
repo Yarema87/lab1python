@@ -1,4 +1,5 @@
 from lab1python.models.saw import Saw
+from lab1python.models.excections import AlreadyIsException
 
 
 class Chainsaw(Saw):
@@ -7,7 +8,7 @@ class Chainsaw(Saw):
     """
     instance = None
 
-    def __init__(self, worktime=8, brand="T-800", power=1100,  types_of_supply=("fuel", "electricity"),
+    def __init__(self, worktime=8.0, brand="T-800", power=1100,  types_of_supply=("fuel", "electricity"),
                  fuel_tank_capacity=3.7, fuel_level=3.3, is_working=False):
         """
         :param worktime: how much time (in hours) can this chainsaw work
@@ -27,18 +28,6 @@ class Chainsaw(Saw):
                 f"fuel tank capacity: {self.fuel_tank_capacity}"
                 f", fuel level: {self.fuel_level}, "
                 f"types of supply: {self.types_of_supply}, is working: {self.is_working}")
-
-    def start(self):
-        """
-        make chainsaw working
-        """
-        self.is_working = True
-
-    def stop(self):
-        """
-        make chainsaw not working
-        """
-        self.is_working = False
 
     def cut_wood(self, length):
         """

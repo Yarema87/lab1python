@@ -1,0 +1,7 @@
+ERROR:root:Exception occurred in stop: Already doesn't work
+Traceback (most recent call last):
+  File "/Users/yarema/PycharmProjects/lab1/lab1python/models/saw.py", line 10, in wrapper
+    return func(*args)
+  File "/Users/yarema/PycharmProjects/lab1/lab1python/models/saw.py", line 64, in stop
+    raise AlreadyIsException("Already doesn't work")
+lab1python.models.excections.AlreadyIsException: Already doesn't work
