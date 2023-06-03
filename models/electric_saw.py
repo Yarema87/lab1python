@@ -7,7 +7,8 @@ class ElectricSaw(Saw):
     """
     instance = None
 
-    def __init__(self, worktime=8, brand="T-800", power=1100, battery_charge=70, is_working=False):
+    def __init__(self, worktime=8, brand="T-800", power=1100, battery_charge=70,
+                 types_of_supply=("battery", "electricity"), is_working=False):
         """
         :param worktime: :param worktime: how much time (in hours) can this electric saw work
         :param brand: example electric saw's brand
@@ -16,12 +17,12 @@ class ElectricSaw(Saw):
         :param is_working: is this electric saw working now
         default parameters are describing some spherical electric in vacuum
         """
-        super().__init__(brand, power, worktime, is_working)
+        super().__init__(brand, power, worktime, types_of_supply, is_working)
         self.battery_charge = battery_charge
 
     def __str__(self):
-        return (f"Brand: {self.brand}, power: {self.power}, battery charge: "
-                f"{self.battery_charge}, is working: {self.is_working}")
+        return (f"Brand: {self.brand}, power: {self.power}, worktime: {self.worktime}, battery charge: "
+                f"{self.battery_charge}, types of supply: {self.types_of_supply},  is working: {self.is_working}")
 
     def start(self):
         """
