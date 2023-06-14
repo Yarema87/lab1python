@@ -1,4 +1,5 @@
 from lab1python.models.saw import Saw
+from lab1python.models.excections import AlreadyIsException
 
 
 class ElectricSaw(Saw):
@@ -23,18 +24,6 @@ class ElectricSaw(Saw):
     def __str__(self):
         return (f"Brand: {self.brand}, power: {self.power}, worktime: {self.worktime}, battery charge: "
                 f"{self.battery_charge}, types of supply: {self.types_of_supply},  is working: {self.is_working}")
-
-    def start(self):
-        """
-        make electric saw working
-        """
-        self.is_working = True
-
-    def stop(self):
-        """
-        make electric saw not working
-        """
-        self.is_working = False
 
     def cut_wood(self, length):
         """

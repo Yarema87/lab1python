@@ -1,4 +1,5 @@
 from lab1python.models.saw import Saw
+from lab1python.models.excections import AlreadyIsException
 
 
 class Jigsaw(Saw):
@@ -26,18 +27,6 @@ class Jigsaw(Saw):
         return (f"Brand: {self.brand}, power: {self.power}, worktime: {self.worktime}, length: "
                 f"{self.length}, width: {self.width}, "
                 f"types of supply: {self.types_of_supply} is working: {self.is_working}")
-
-    def start(self):
-        """
-        make jigsaw working
-        """
-        self.is_working = True
-
-    def stop(self):
-        """
-        make jigsaw not working
-        """
-        self.is_working = False
 
     @staticmethod
     def get_instance():
